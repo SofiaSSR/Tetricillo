@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="tetris.js"></script>
+   <style> .roto{transform: rotate(180deg) ;} #container{justify-content: space-around;align-content: center;}</style>
+   <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="canvas"></div>
+        <div id="buttons">
+            <button class="move roto" onclick="rotando()">v</button>
+            <button class="move roto" onclick="moveee(-1,0)">></button>
+            <button class="move" onclick="moveee(0,1)">v</button>
+            <button class="move" onclick="moveee(1,0)">></button>
+        </div>
+    </div>
+</body>
+
+</html>
