@@ -1,8 +1,8 @@
 const tipot =[[0,1,0],[1,1,1],[0,0,0]];
 const tipoc= [[2,2],[2,2]];
 const tipol =[[0,3,0,0],[0,3,0,0],[0,3,0,0],[0,3,0,0]];
-const tipoj1 =[[0,0,4],[0,0,4],[0,4,4]];
-const tipoj2 =[[5,0,0],[5,0,0],[5,5,0]];
+const tipoj1 =[[0,4,0],[0,4,0],[4,4,0]];
+const tipoj2 =[[0,5,0],[0,5,0],[5,5,0]];
 const tipos1 =[[0,6,6],[6,6,0],[0,0,0]];
 const tipos2 =[[7,7,0],[0,7,7],[0,0,0]];
 var dimta= [10,20];
@@ -10,7 +10,7 @@ var colores =[[255,0,0],[255,128,0],[255,255,0],[128,225,0],[0,255,0],[0,0,255],
 var tetro=[tipot,tipoc,tipol,tipoj1,tipoj2,tipos1,tipos2];
 var medidas =[0,1,0];//almacena lineasresueltas, nivel y score;
 var current= [0,0,[]];//representa la pieza actual px, py, tipo ,color;
-var tiempos=[0,0,6000];//tiempo transcurrido desde la tulrima toma, tultima toma,cada cuanto cae;
+var tiempos=[0,0,60];//tiempo transcurrido desde la tulrima toma, tultima toma,cada cuanto cae;
 var lll=[];
 var tablero =[];
 //creacion del tablero
@@ -81,41 +81,52 @@ if(medidas[0]%100==0){
  if(current[1]==18){
    caido();
   }}
-//deteccion de teclas
-function keyPressed(){
- if (keyCode === LEFT_ARROW || key=="a") moveee(-1,0);
- else if (keyCode === RIGHT_ARROW|| key=="d") moveee(1,0);
- else if (keyCode === DOWN_ARROW|| key=="s") moveee(0,1);
- else if (keyCode === UP_ARROW|| key=="w") rotando();}
+
 //movimiento continuo
 function moveee(mx,my){
-  if(current[1]+my<19)
+  if(current[1]+my<19 && current[0]+mx<9 && 0<=current[0]+mx){
   current[1] = current[1]+my;
   // if(abs(current[0]+mx)<5)
-  current[0] = current[0]+mx;
+  current[0] = current[0]+mx;}
   console.log(current[0], current[1]);
 }
-function rotando(){  
-  current[2].forEach((line)=>line.reverse());
- //current[2].reverse();
-  console.log("rot");
+//rotando ando
+function rotando(arr){  
+let rotado=[]
+
+for(let i = 0;i<arr.length;i++)
+   rotado.push([i])
+for (let i = 0;i<arr.length;i++){
+  for(let j = 0;j<arr.length;j++){
+    rotado[j][rotado.length-1-i]=arr[i][j];
+  }}
+  for (let i = 0;i<arr.length;i++){
+    for(let j = 0;j<arr.length;j++){
+    arr[i][j]= rotado[i][j];
+    }}
 }
 //recordar la casilla
 function glue(big,small){
 small[2].forEach((row,y)=>{
   row.forEach((value,x)=>{
-    if(value!== 0){
-    big[y+small[1]][x+small[0]]=value;   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log("  ",y+small[0],x+small[1]);
-    }
-}) 
-})
+    if(value!== 0){ 
+      val = value;
+    big[y+small[0]][int(x+small[1])]=value;
+  console.log(y+small[0],x+small[1])}
+})}) 
 }
+//deteccion de teclas
+function keyPressed(){
+ if (keyCode === LEFT_ARROW || key=="a") moveee(-1,0);
+ else if (keyCode === RIGHT_ARROW|| key=="d") moveee(1,0);
+ else if (keyCode === DOWN_ARROW|| key=="s") moveee(0,1);
+ else if (keyCode === UP_ARROW|| key=="w") rotando(current[2]);}
 //deteccion y creacion de nuevo bloque
 function caido(){
 lll.push(current.slice());
 current[0]=0;
 current[1]=0;
-current[2]=random(tetro);
-console.log(lll);
+noLoop();
+current[2]=random(tetro).map((x)=> x);
+loop();
 }
