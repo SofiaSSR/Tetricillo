@@ -1,9 +1,12 @@
 # Tetricillo
+
 proyecto obligatorio 2020-2
-##¿Que es?
+
+## ¿Que es?
+
 Un ¡tetris!jugable en cualquier navegador hecho a base de p5.js y html
 
-##¿Como funciona?
+## ¿Como funciona?
 
 
 ###### 1. Iniciar
@@ -24,13 +27,13 @@ En el se verifica primero si esta disponible el lugar para moverse.(todopoderosa
 La rotacion genera una matriz mediante transposicion y el reverso de las columnas de la pieza original,todopoderosa tipo "salirse" verifica que la matriz rotada tiene cabida
 siendo ese el caso la funcion copia la matriz rotada en la matriz original.
 
-#####3. Caida y choque
+###### 3. Caida y choque
 Con la funcion todopoderosa tipo "caida" vemos si debajo de cada cuadrito de la ficha hay algo en el tablero o bien esta el limite inferior,
 si es asi pega (mediante todopoderosa tipo "pegar")el valor de cada cuadro en el tablero en la posicion que se muestra en pantalla y
 reestablece los valores de la pieza actual current, dandole otro tetromino aleatoreo(funcion caido).
 
 
-#####4.Puntajes y gameover
+######  4.Puntajes y gameover
 Todas las variables como lineas blanqueadas y score se guardan en medidas, para blanquear una linea se recorren las filas del tablero
 y si en alguna cada elemento es diferente de 0 se corren todas las filas una posicion hacia abajo.
 
