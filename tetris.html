@@ -12,12 +12,44 @@
     <div id="container">
         <div id="canvas"></div>
         <div id="buttons">
-            <button class="move roto" onclick="rotando(current[2])">v</button>
+            <div class="arreglo"><button id="arriba" class="move roto"  onclick="rotando(current[2])">v</button></div>
+            <div class="arreglo">
             <button class="move roto" onclick="moveee(-1,0)">></button>
             <button class="move" onclick="moveee(0,1)">v</button>
-            <button class="move" onclick="moveee(1,0)">></button>
+            <button class="move" onclick="moveee(1,0)">></button></div>
         </div>
     </div>
 </body>
 
 </html>
+<style>
+.roto{
+    transform: rotate(180deg);
+    margin-left: 25%;
+}
+#arriba{
+    margin-left: 45%;
+}
+#container, #arreglo{
+    justify-content: space-around;
+    align-content: center;
+    display: flex;}
+button{
+	color:#4F3B7A;
+	font-size: large;
+	size: 100px;
+	margin:3%;
+    padding: 4% 5% 4% 5%;
+  	border: 2px solid #3123f3;
+  	transition-duration: 0.5s;
+  	cursor: pointer;
+
+}
+button:hover{
+	background: #1e0ef7;
+    color: #fff;}
+#buttons{
+    width: 40%;
+    padding-top: 25%;
+}
+</style>
