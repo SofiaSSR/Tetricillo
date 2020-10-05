@@ -9,11 +9,11 @@ var dimta= [10,250,20,500];//numero de columnas, ancho del cuadro, numero de fil
 var colores =[[255,0,0],[255,128,0],[255,255,0],[128,225,0],[0,255,0],[0,0,255],[255,0,128]];
 var tetro=[tipot,tipoc,tipol,tipoj1,tipoj2,tipos1,tipos2];
 var medidas =[0,1,0];//almacena lineasresueltas, nivel y score;
-var current= [0,0,[]];//representa la pieza actual px, py, tipo ,color;
+var current= [4,0,[]];//representa la pieza actual px, py, tipo ,color;
 var tiempos=[0,0,500];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
 var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
-//creando el entorno by default
-function textito(letra,letra2,pt2,size){
+
+function textito(letra,letra2,pt2,size){//creando el entorno by default
   textSize(size);
   textAlign(CENTER,TOP);
   text(letra,width*10/12,height*pt2/15);
@@ -25,7 +25,7 @@ function setup() {
   rectMode(CENTER);
   current[2] = random(tetro);}
 
-function update(){
+function update(){ //caida segunt tiempo
   tiempos[0]=millis()-tiempos[1];
   if(tiempos[0]>tiempos[2]){
       tiempos[1]=millis();
@@ -48,8 +48,8 @@ todopoderosa(tablero,1,1,"show");
  if(tablero[0].some((value)=>{return value!=0}))
   gameover();
 }
-//movimiento continuo
-function moveee(mx,my){
+
+function moveee(mx,my){//movimiento continuo
   if(!todopoderosa(current[2],current[0],current[1],"caida"))
    caido();
   else if(todopoderosa(current[2],current[0]+mx,current[1]+my,"salirse")){
@@ -64,7 +64,7 @@ function todopoderosa(arr,vx,vy,tipe){//"salirse"verificar que no se salga del c
    row.forEach((value,x)=>{
      if(value!==0){
       if(tipe=="salirse"){
-       if(vy+y>dimta[2]-1 || 0>vy+y || vx+x>dimta[0]-1 || 0> vx+x)
+       if(vy+y>dimta[2]-1 || 0>vy+y || vx+x>dimta[0]-1 || 0> vx+x|| tablero[vy+y][vx+x]!=0)
          bol=false;
       }else if(tipe=="caida"){
         if(vy+y==dimta[2]-1){
@@ -81,50 +81,48 @@ function todopoderosa(arr,vx,vy,tipe){//"salirse"verificar que no se salga del c
         noFill();
       }}
      });
- })
+   })
  return bol;}
  
 function completo(){
   tablero.forEach((fila,i)=>{
     if(fila.every(function n(value){return value!=0;})){
     for(var m=i;m>0;m--)
-      tablero[m]=tablero[m-1]; 
+      tablero[m]=tablero[m-1].slice(); 
     medidas[0]++
     medidas[2]+=100;}
   })
   if(medidas[0]%1000==0 && tiempos[2]<100)
     tiempos[2]-=95;
 }
-//rotando ando
-function rotando(arr){  
+
+function rotando(arr){  //rotando ando
 let rotado=Array.from({length: arr.length},()=>Array.from({length: arr[0].length},()=>0));
-for (let i = 0;i<arr.length;i++){
-  for(let j = 0;j<arr.length;j++){
+for (let i = 0;i<arr.length;i++)
+  for(let j = 0;j<arr.length;j++)
     rotado[j][rotado.length-1-i]=arr[i][j];
-  }}
-  if(todopoderosa(rotado,current[0],current[1],"salirse")){
-  for (let i = 0;i<arr.length;i++){
-    for(let j = 0;j<arr.length;j++){
-    arr[i][j]= rotado[i][j];
-    }}}
+if(todopoderosa(rotado,current[0],current[1],"salirse"))
+  for (let i = 0;i<arr.length;i++)
+    for(let j = 0;j<arr.length;j++)
+      arr[i][j]= rotado[i][j];
 }
-//deteccion de teclas
-function keyPressed(){
+
+function keyPressed(){//deteccion de teclas
  if (keyCode === LEFT_ARROW || key=="a") moveee(-1,0);
  else if (keyCode === RIGHT_ARROW|| key=="d") moveee(1,0);
  else if (keyCode === DOWN_ARROW|| key=="s") moveee(0,1);
  else if (keyCode === UP_ARROW|| key=="w") rotando(current[2]);}
-//deteccion y creacion de nuevo bloque
-function caido(){
+
+function caido(){//deteccion y creacion de nuevo bloque
 todopoderosa(current[2],current[0],current[1],"pegar");
-current[0]=0;
+current[0]=4;
 current[1]=0;
 noLoop();
 current[2]=random(tetro.slice());
 loop();
-completo();
-}
-function gameover(){
+completo();}
+
+function gameover(){//stylish del gameover
 background(0);
 textSize(30);
 text("GAME OVER",width/2,height*1/4);
