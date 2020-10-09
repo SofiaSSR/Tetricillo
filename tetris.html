@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="tetris.js"></script>
-   <style> .roto{transform: rotate(180deg) ;} #container{justify-content: space-around;align-content: center;}</style>
    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
 </head>
 <body>
+    <!-- <audio id="musik" src="https://www.youtube.com/watch?v=whBg7IF5JUg" preload="auto"></audio> -->
     <div id="container">
-        <div id="canvas"></div>
+        <div id="canvas">
+         <button id="inicio" onclick="start()">iniciar</button>
+        </div>
         <div id="buttons">
             <div class="arreglo"><button id="arriba" class="move roto"  onclick="rotando(current[2])">v</button></div>
             <div class="arreglo">
@@ -30,7 +32,7 @@
 #arriba{
     margin-left: 45%;
 }
-#container, #arreglo{
+#container, #arreglo, #canvas{
     justify-content: space-around;
     align-content: center;
     display: flex;}
@@ -51,5 +53,9 @@ button:hover{
 #buttons{
     width: 40%;
     padding-top: 25%;
+}
+#canvas{
+    flex-direction: column;
+    position: relative;
 }
 </style>
