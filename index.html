@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="/poliminoes/polyominoGenerator.js"></script>
+    <script src="/poliminoes/renderPolyomino.js"></script>
+    <script src="/check.js"></script>
     <script src="tetris.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
 </head>
 <body>
+    <form name='numInput' id='numInput'>
+        <input type='text' name='answer'>
+        <input type='submit'>
+      </form>
     <!-- <audio id="musik" src="https://www.youtube.com/watch?v=whBg7IF5JUg" preload="auto"></audio> -->
     <div id="container">
         <div id="canvas">
@@ -21,6 +29,7 @@
             <button class="move" onclick="moveee(1,0)">></button></div>
         </div>
     </div>
+    <svg id = 'vis'></svg>
 </body>
 
 </html>
@@ -59,3 +68,78 @@ button:hover{
     position: relative;
 }
 </style>
+<script>
+  d3.select('#numInput').on('submit', submitCheck);
+    
+    function submitCheck() {
+        d3.event.preventDefault();
+    
+        if(validateForm) {
+            var svg = d3.select("svg");
+            svg.selectAll("*").remove();
+            genPoly(Number(document.forms["numInput"]["answer"].value));
+        }
+    
+    }
+    
+    //validate the user input
+    function validateForm() {
+        var x = document.forms["numInput"]["answer"].value;
+        if (x === null || x === "" || isNaN(x)) {
+          alert("Please enter an actual numerical value.");
+          return false;
+        }
+    
+        if(Number(x) >= 11) {
+            alert("This might not work! You're on your own!");
+        }
+    
+        return true;
+    }
+</script>
+<!-- <script>
+
+  d3.select('#numInput').on('submit', submitCheck);
+  
+  function submitCheck() {
+    d3.event.preventDefault();
+  
+    if(validateForm) {
+      var svg = d3.select("svg");
+        svg.selectAll("*").remove();
+      genPoly(Number(document.forms["numInput"]["answer"].value));
+    }
+  
+  }
+  
+  //validate the user input
+  function validateForm() {
+    var x = document.forms["numInput"]["answer"].value;
+    if (x === null || x === "" || isNaN(x)) {
+      alert("Please enter an actual numerical value.");
+      return false;
+    } 
+  
+    if(Number(x) >= 11) {
+      alert("This might not work! You're on your own!");
+    }
+  
+    return true;
+  }
+  
+  function genPoly(n) {
+  var chart = d3.select('#vis');
+  
+  //main call to the generation algorithm.
+  var polyOminos = polyominoGenerator().returnPolyominos(n);
+  
+  console.log(polyOminos);
+  
+  //graphically render all the pieces that are generated. 
+  renderPolyomino(chart).renderAllPieces(polyOminos, 30, 100, 20, 20);
+}
+var extra= copyPolyomino(polyOminos[0]);
+extra = flipPointsVertically(extra);
+console.log(extra, " antigua", polyOminos[0]); 
+  
+  </script> -->
