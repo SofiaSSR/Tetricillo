@@ -17,13 +17,6 @@ function genPoly(n) {
   console.log(colores);
   }
 var dimta= [10,250,20,500];//numero de columnas, ancho del cuadro, numero de filas, largo del cuadro;
-/* var colores =[[0, 255, 0], [0, 0, 255], [255, 153, 102], [255, 255, 0], [51, 255, 0],[0, 0, 51],[0, 0, 102], [0, 0, 153], [0, 0, 204], [0, 51, 0], [0, 51, 51], [0, 51, 102], [0, 51, 153], [0, 51, 204], [0, 51, 255], [0, 1,255], [0, 204, 0], [0, 204, 51], [0, 204, 102], [0, 204, 153], [0, 204, 204], [0, 204, 255], [0, 255, 51], [0, 255, 102], [0, 255, 153], [0, 255, 204], [0, 255, 255], [51, 0, 0], [51, 0, 51], [51, 0, 102], [51, 0, 153], [51, 0, 204], [51, 0, 255], [51, 51, 0], [51, 51, 51], [51, 51, 102], [51, 51, 153], [51, 
-  51, 204], [51, 51, 255], [51, 102, 0], [51, 102, 51], [51, 102, 102], [51, 102, 153], [51, 102, 204], [51, 102, 255], [51, 153, 0], [51, 153, 51], [51, 153, 102], [51, 153, 153], [51, 153, 204], [51, 153, 255], [51, 204, 0], [51, 204, 51], [51, 204, 102], [51, 204, 153], [51, 204, 204], [51, 204, 255], [51, 255, 51], [51, 255, 102], [51, 255, 153], [51, 255, 204], [51, 255, 255], [102, 0, 0], [102, 0, 51], [102, 0, 102], [102, 0, 153], [102, 0, 204], [102, 0, 255], [102, 51, 0], [102, 51, 51], [102, 51, 102], [102, 51, 153], [102, 51, 204], [102, 51, 255], [102, 102, 0], [102, 102, 51], [102, 102, 102], [102, 102, 153], [102, 
-  102, 204], [102, 102, 255], [102, 153, 0], [102, 153, 51], [102, 153, 102], [102, 153, 153], [102, 153, 204], [102, 153, 255], [102, 204, 0], [102, 204, 51], [102, 204, 102], [102, 204, 153], [102, 204, 204], [102, 204, 255], [102, 255, 0], [102, 255, 51], [102, 255, 102], [102, 255, 153], [102, 255, 204], [102, 255, 255], [153, 0, 0], [153, 0, 51], [153, 0, 102], [153, 0, 153], [153, 0, 204], [153, 0, 255], [153, 51, 0], [153, 51, 51], [153, 51, 102], [153, 51, 153], [153, 51, 204], [153, 51, 255], [153, 102, 0], [153, 102, 51], [153, 102, 102], [153, 102, 153], [153, 102, 204], [153, 102, 255], [153, 153, 0], [153, 153, 51], [153, 153, 102], [153, 153, 153], [153, 153, 204], [153, 153, 255], [153, 204, 0], [153, 204, 51],
-   [153, 204, 102], [153, 204, 153], [153, 204, 204], [153, 204, 255], [153, 255, 0], [153, 255, 51], [153, 255, 102], [153, 255, 153], [153, 255, 204], [153, 255, 255], [204, 0, 0], [204, 0, 51], [204, 0, 102], [204, 0, 153], [204, 0, 204], [204, 0, 255], [204, 51, 0], [204, 51, 51], [204, 51, 102], [204, 51, 153], [204, 51, 204], [204, 51, 255], [204, 102, 0], [204, 102, 51], [204, 102, 102], [204, 102, 153], [204, 102, 204], [204, 102, 255], [204, 153, 0], [204, 153, 51], [204, 153, 102], [204, 153, 153], [204, 153, 204], [204, 153, 255], [204, 204, 0], [204, 204, 51], [204, 204, 102], [204, 204, 153], [204, 204, 204], [204, 204, 255], [204, 255, 0], [204, 255, 51], [204, 255, 102], [204, 255, 153], [204, 255, 204], [204, 255, 255], [255, 0, 0], [255, 0, 51], [255, 0, 102], [255, 0, 153], [255, 0, 204], [255, 0, 255], [255, 51, 0], [255, 51, 51], [255, 51, 102], [255, 51, 153], [255, 51, 204], [255, 51, 255], [255, 102, 0], [255, 102, 51], [255, 102, 102], [255, 102, 153], [255, 102, 204], [255, 102, 255], [255, 153, 0], [255, 153, 
-  51], [255, 153, 153], [255, 153, 204], [255, 153, 255], [255, 204, 0], [255, 204, 51], [255, 204, 102], [255, 204, 153], [255, 204, 204], [255, 204, 255], [255, 255, 51], [255, 255, 102], [255, 255, 153], [255, 255, 204]];
-var colores22 =[[0, 0, 0], [0, 0, 255], [0, 0, 153], [0, 0, 204], [0, 0, 102], [0, 0, 51], [0, 255, 0], [0, 255, 255], [0, 255, 153],[0, 255, 204], [0, 255, 102], [0, 255, 51],[0, 204, 51], [0, 102, 0], [0, 102, 255], [0, 102, 153], [0, 102, 204], [0, 102, 102], [0, 102, 51], [0, 51, 0], [0, 51, 255], [0, 51, 153], [0, 51, 204], [0, 51, 102], [0, 51, 51], [255, 0, 0], [255, 0, 255],  [255, 0, 153], [255, 0, 204], [255, 0, 102], [255, 0, 51], [255, 255, 0], [255, 255, 255], [255, 255, 153], [255, 255, 204], [255, 255, 102], [255, 255, 51], [255, 153, 0], [255, 153, 255], [255, 153, 153], [255, 153, 204], [255, 153, 102], [255, 153, 51], [255, 204, 0], [255, 204, 255], [255, 204, 153], [255, 204, 204], [255, 204, 102], [255, 204, 51], [255, 102, 0], [255, 102, 255],[255, 102, 153], [255, 102, 204], [255, 102, 102], 
-[255, 102, 51], [255, 51, 0], [255, 51, 255], [255, 51, 153], [255, 51, 204], [255, 51, 102], [255, 51, 51], [153, 0, 0], [153, 0, 255], [153, 0, 153], [153, 0, 204], [153, 0, 102], [153, 0, 51], [153, 255, 0], [153, 255, 255], [153, 255, 153], [153, 255, 204], [153, 255, 102], [153, 255, 51], [153, 153, 0], [153, 153, 255], [153, 153, 153], [153, 153, 204], [153, 153, 102], [153, 153, 51], [153, 204, 0], [153, 204, 255], [153, 204, 153], [153, 204, 204], [153, 204, 102], [153, 204, 51], [153, 102, 0], [153, 102, 255], [153, 102, 153], [153, 102, 204], [153, 102, 102], [153, 102, 51], [153, 51, 0], [153, 51, 255], [153, 51, 153], [153, 51, 204], [153, 51, 102], [153, 51, 51], [204, 0, 0], [204, 0, 255], [204, 0, 153], [204, 0, 204], [204, 0, 102], [204, 0, 51], [204, 255, 0], [204, 255, 255], [204,  255, 153], [204, 255, 204], [204, 255, 102], [204, 255, 51], [204, 153, 0], [204, 153, 255], [204, 153, 153], [204, 153, 204], [204, 153, 102], [204, 153, 51], [204, 204, 0], [204, 204, 255], [204, 204, 153], [204, 204, 204], [204, 204, 102], [204, 204, 51], [204, 102, 0], [204, 102, 255], [204, 102, 153], [204, 102, 204],[204, 102, 102], [204, 102, 51], [204, 51, 0], [204, 51, 255], [204, 51, 153], [204, 51, 204], [204, 51, 102], [204, 51, 51], [102, 0, 0], [102, 0, 255], [102, 0, 153], [102, 0, 204], [102, 0, 102], [102, 0, 51], [102, 255, 0], [102, 255, 255],  [102, 255, 153], [102, 255, 204], [102, 255, 102], [102, 255, 51], [102, 153,  0], [102, 153, 255], [102, 153, 153], [102, 153, 204], [102, 153, 102], [102, 153, 51], [102, 204, 0], [102, 204, 255], [102, 204, 153], [102, 204, 204], [102, 204, 102], [102, 204, 51], [102, 102, 0], [102, 102, 255], [102, 102, 153], [102, 102, 204], [102, 102, 102], [102, 102, 51], [102, 51, 0], [102, 51, 255], [102, 51, 153], [102, 51, 204],[102, 51, 102], [102, 51, 51], [51, 0, 0], [51, 0, 255], [51, 0, 153], [51, 0, 204], [51, 0, 102], [51, 0, 51], [51, 255, 0],  [51, 255, 255], [51, 255, 153], [51, 255, 204], [51, 255, 102], [51, 255, 51], [51, 153, 0], [51, 153, 255], [51, 153, 153],[51, 153, 204], [51, 153, 102], [51, 153, 51],[51, 204, 0], [51, 204, 255], [51, 204, 153], [51, 204, 204], [51, 204, 102], [51, 204, 51], [51, 102, 0], [51, 102, 255], [51, 102, 153], [51, 102, 204], [51, 102, 102], [51, 102, 51], [51, 51, 0], [51, 51, 255], [51, 51, 153], [51, 51, 204], [51, 51, 102], [51, 51, 51]]; */
 class pieza {
 
   constructor(A,B,C,D,E){
@@ -59,19 +52,37 @@ class pieza {
       this.y = this.y-my;
       this.x = this.x-mx;
    }loop()}
+   full_down(){
+    while (this.caido == false)
+      this.moveee(0,1);
   }
-  var tiempos=[0,0,400];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
-  var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
-  var estado = ["inicio"];
-  var medidas ={lineas:8,nivel:1,score:0};
-  var ancho = 500, alto = 550;
-  var inicial =[ancho*7/48-26,alto*3/30-25];
-  var current,newt;
+  }
+var tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
+var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
+var estado = ["inicio"];
+var medidas ={lineas:8,nivel:1,score:0};
+var ancho = 500, alto = 550;
+var inicial =[ancho*7/48-26,alto*3/30-25];
+var current,newt;
+var update_board_flag = true;
+var juego_rapido = false;
+var lost_game = false;
+var score_copy = 0;
+var copy_board = [];
+var tile_width = dimta[1]/dimta[0];
+var tile_height = dimta[3]/dimta[2];
+
   function determinado(){
    medidas ={lineas:0,nivel:1,score:0};;//almacena lineasresueltas, nivel y score;
-   tiempos=[0,0,500];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
+   tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
    tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
-   estado = ["inicio"];}
+   estado = ["inicio"];
+   copy_board = [];
+   score_copy = 0;
+   lost_game = false;
+   juego_rapido = false;
+   update_board_flag = true;
+  }
    //var musica = document.getElementById("msik");
   
   function textito(letra,letra2,pt2,size){//creando el entorno by default
@@ -91,17 +102,27 @@ class pieza {
     inicio();
    }else if(estado[0]=="juego"){
      juego();
-     if(tablero[0].some((value)=>{return value!=0}))
-       gameover();}}
+     fast_game();
+     if(tablero[0].some((value)=>{return value!=0})){  // A tile reaches top
+       game_lives--;
+       if (game_lives > 0 && juego_rapido)
+       {
+         tablero = JSON.parse(JSON.stringify(copy_board));
+         medidas.score = score_copy.valueOf();
+         lost_game = true;
+       }
+       else if (game_lives == 0 || !(juego_rapido))
+         gameover();
+     }
+    }
+   }
   
   function start(){
    estado[0]="juego";
    document.getElementById("inicio").style.display = "none";
    let a = Math.floor(Math.random() * tetro.length);
-   console.log(tetro[a],"!!!!!!!!!!!!!!!!!!!!!!!!!!!cur");
-   current = new pieza(Math.round(dimta[0]/2)-1,0,tetro[a],0,a);
+   current = new pieza(Math.round(dimta[0]/2)-1,false,tetro[a],0,a);
    a= Math.floor(Math.random() * tetro.length);
-   console.log(tetro[a],"!!!!!!!!!!!!!!!!!!!!!!!!!!!cur");
    newt = new pieza(13,18,tetro[a],0,a);
   }  
   function inicio(){
@@ -124,23 +145,43 @@ class pieza {
    fill(125);
    rectMode(CORNERS);
    rect(inicial[0],inicial[1],inicial[0]+dimta[1],inicial[1]+dimta[3]);
+   stroke(125, 213, 200);
    rectMode(CENTER);
    //end default
-  show(tablero,0,0,25);
+  show(tablero,25);
   todopoderosa(current,"show",25);
   todopoderosa(newt,"show",25);
   current.update();
   }
-function show(arr,vx,vy,extra){
+  function fast_game(){
+    if (medidas.score >= 400 && medidas.score <= 10400)
+    {
+      if (update_board_flag && (!lost_game))  // Create a copy board
+      {
+        score_copy = medidas.score.valueOf();
+        copy_board = JSON.parse(JSON.stringify(tablero));
+        update_board_flag = false;
+      }
+      juego_rapido = true;
+      tiempos[2] = 100;
+    }
+    else
+    {
+      lost_game = false;
+      juego_rapido = false;
+      tiempos[2] = 400;
+      update_board_flag = true;
+    }
+  }
+function show(arr,extra){
   arr.forEach((row,y)=>{
    row.forEach((value,x)=>{
-    if(value!==0){
-      let rx= vx+x;
-      let ry = vy+y;
-        stroke(colores[value-1]);
-        fill(colores[value-1]);
-        rect(extra*(rx)+inicial[0]+extra/2,extra*(ry)+inicial[1],dimta[1]/dimta[0],dimta[3]/dimta[2]);
-        noFill();}
+    if(value!==0)
+      fill(colores[value-1]);
+    stroke(125, 213, 200);
+    rect(extra*(x)+inicial[0]+extra/2,extra*(y)+inicial[1]+extra/2,tile_width,tile_height);
+    noFill();
+        
   })})}
 function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del cuadro,"caida" verificar caida,"pegar" pegar el arreglo al tablero,"show"dibujar el arreglo con el color
    let bol =true;
@@ -160,21 +201,28 @@ function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del c
         else if(tipe=="show"){
           stroke(colores[obj.id-1]);
           fill(colores[obj.id-1]);
-          rect(extra*(rx)+inicial[0]+extra/2,extra*(ry)+inicial[1],dimta[1]/dimta[0],dimta[3]/dimta[2]);
+          rect(extra*(rx)+inicial[0]+extra/2,extra*(ry)+inicial[1],tile_width,tile_height);
           noFill();
         }
    })
    return bol;}
+var game_lives = 3;
+var filled_lines_counter = 0;  // Has the count of the removed lines in the current game
   function completo(){ //completar filas ///ñooo
     tablero.forEach((fila,i)=>{
       if(fila.every(function n(value){return value!=0;})){
       for(var m=i;m>0;m--)
         tablero[m]=tablero[m-1].slice(); 
-      medidas.lineas++
+      medidas.lineas++;
       medidas.score+=100;
+    filled_lines_counter++;
+    if (filled_lines_counter == 2 - 1){
+      game_lives++;
+      filled_lines_counter = 0;
+    }
       if(medidas.lineas%9==0 && medidas.lineas>0){
-        medidas.nivel+=1
-        medidas.score+=1
+        medidas.nivel+=1;
+        medidas.score+=1;
       if(tiempos[2]>100)
         tiempos[2]-=100;
         }
@@ -186,7 +234,7 @@ function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del c
    else if (keyCode === RIGHT_ARROW|| key=="d") current.moveee(1,0);
    else if (keyCode === DOWN_ARROW|| key=="s") current.moveee(0,1);
    else if (keyCode === UP_ARROW|| key=="w") current.rotando();
-   else if( key=="r")current.fullcaida()
+   else if( key=="r")current.full_down()
    else if(key=="n" && estado[0]=="gameover") {
     determinado();
     start()}}
