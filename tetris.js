@@ -102,18 +102,38 @@ var tile_height = dimta[3]/dimta[2];
    textAlign(CENTER,TOP);
    text(letra,width*10/12,height*pt2/15);
     text(letra2,width*10/12,height*(pt2+1)/15);}
-  
+
+
+  function displayLives(){
+    switch(game_lives){
+      case 1:
+        image(img, 340, 120, 50, 50);
+        break;
+      case 2:
+        image(img, 340, 120, 50, 50);
+        image(img, 390, 120, 50, 50);
+        break;
+      case 3:
+        image(img, 340, 120, 50, 50);
+        image(img, 390, 120, 50, 50);
+        image(img, 440, 120, 50, 50);
+    }
+  }
+
+  let img;
   function setup() {
     var canvas= createCanvas(500,550);
     canvas.parent("canvas");
     rectMode(CENTER);
+    img = loadImage('hearth_image_file.jpg');
   }
   
-  function draw() {
+  function draw() {  
    if(estado[0]=="inicio"){
     inicio();
    }else if(estado[0]=="juego"){
      juego();
+     displayLives();
      fast_game();
      if(tablero[0].some((value)=>{return value!=0})){  // A tile reaches top
        game_lives--;
@@ -139,7 +159,6 @@ var tile_height = dimta[3]/dimta[2];
   }  
   function inicio(){
       background(0);
-      //musica.play();
       stroke(255);
       textSize(20);
       textAlign(CENTER,TOP);
@@ -165,11 +184,14 @@ var tile_height = dimta[3]/dimta[2];
   todopoderosa(newt,"show",25);
   current.update();
   }
+  var fast_game_counter = -1;  // stores the number of times fast_game has occurred
+  var fast_game_counter_flag = false;  // For copying the board just once
   function fast_game(){
-    if (medidas.score >= 500 && medidas.score <= 5000)
+    if (tiempos[1] >= 5000*(4+(5*fast_game_counter)) && tiempos[1] < (25000*(fast_game_counter+1)))  // fast game interval
     {
       if (update_board_flag && (!lost_game))  // Create a copy board
       {
+        fast_game_counter_flag = false;
         score_copy = medidas.score.valueOf();
         copy_board = JSON.parse(JSON.stringify(tablero));
         update_board_flag = false;
@@ -183,6 +205,12 @@ var tile_height = dimta[3]/dimta[2];
       juego_rapido = false;
       tiempos[2] = 400;
       update_board_flag = true;
+      if (!fast_game_counter_flag)
+      {
+        fast_game_counter++;
+        fast_game_counter_flag = true;
+      }
+
     }
   }
 function show(arr,extra){
@@ -221,7 +249,7 @@ function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del c
 var game_lives = 3;
 var filled_lines_counter = 0;  // Has the count of the removed lines in the current game
   
-function completo(){//completar filas ///ñooo
+function completo(){//completar filas
   let init = Date.now();  
   tablero.forEach((fila,i)=>{
       if(fila.every(function n(value){return value!=0;})){
@@ -229,11 +257,7 @@ function completo(){//completar filas ///ñooo
         tablero[m]=tablero[m-1].slice(); 
       medidas.lineas++;
       medidas.score+=100;
-      filled_lines_counter++;
-  /*   if (filled_lines_counter == 2 - 1){
-      game_lives++;
-      filled_lines_counter = 0;
-    }*/}}) 
+      filled_lines_counter++;}}) 
       if(medidas.lineas%9==0 && medidas.lineas>0){
         medidas.nivel+=1;
         medidas.score+=1;
