@@ -1,8 +1,11 @@
 var tetro;
 var choose=[255,2,204,153,102,51],colores=[];
+var dimta= [10,250,20,500];//numero de columnas, ancho del cuadro, numero de filas, largo del cuadro;
 function genPoly(n) {
   tetro = polyominoGenerator().returnPolyominos(n);   
   console.log(tetro);
+  if (n <5){dimta[0]=10;}
+  else{dimta[0]=12;}
   let ccol =1;
   while(ccol**3<tetro.length){
     ccol+=1;
@@ -16,8 +19,16 @@ function genPoly(n) {
   colores.shift();
   console.log(colores);
   }
-var dimta= [10,250,20,500];//numero de columnas, ancho del cuadro, numero de filas, largo del cuadro;
 class pieza {
+  constructor(A,B,C,D){
+    this.pointArray= C.pointArray;
+    this.x = A;
+    this.y = B;
+    this.id= D+1;
+  }
+
+}
+class poliomino {
 
   constructor(A,B,C,D,E){
    this.pointArray= C.pointArray;
@@ -26,43 +37,44 @@ class pieza {
    this.caido = D;
    this.id= E+1;
  }
-    update(){ //caida segunt tiempo
-      tiempos[0]=millis()-tiempos[1];
-      if(tiempos[0]>tiempos[2]){
-        tiempos[1]=millis();
-          this.moveee(0,1);}}
-    rotando(){ 
-     let rotado=normalizePolyomino(rotatePointsClockWise(copyPolyomino(current)));
-     rotado["x"]=current.x;
-     rotado["y"]=current.y;
-     console.log(rotado);
+  update(){ //caida segunt tiempo
+    tiempos[0]=millis()-tiempos[1];
+    if(tiempos[0]>tiempos[2]){
+     tiempos[1]=millis();
+     this.moveee(0,1);}}
+  rotando(){ 
+    let rotado=normalizePolyomino(rotatePointsClockWise(copyPolyomino(current)));
+    rotado["x"]=current.x;
+    rotado["y"]=current.y;
+    console.log(rotado);
      if(todopoderosa(rotado,"salirse",0)){
       console.log("hey");
      this.pointArray=copyPolyomino(rotado).pointArray; 
     }}
-    moveee(mx,my){//movimiento continuo
-       if(!todopoderosa(this,"caida",0)){
-      caido();}
-      noLoop()
-      this.y = this.y+my;
-      this.x = this.x+mx;
-      if(todopoderosa(this,"salirse",0)){ 
+  moveee(mx,my){//movimiento continuo
+    if(!todopoderosa(this,"caida",0)){
+       caido();}
+    noLoop()
+    this.y = this.y+my;
+    this.x = this.x+mx;
+    if(todopoderosa(this,"salirse",0)){ 
       medidas.score+=my*10;
-      }else{
+    }else{
       this.y = this.y-my;
       this.x = this.x-mx;
    }loop()}
-   full_down(){
+  full_down(){
     while (this.caido == false)
       this.moveee(0,1);
   }
+  
   }
-var tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
-var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
+  var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
+  var ancho = 500, alto = 550;
+  var inicial =[ancho*7/48-26,alto*3/30-25];
+  var tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
 var estado = ["inicio"];
 var medidas ={lineas:8,nivel:1,score:0};
-var ancho = 500, alto = 550;
-var inicial =[ancho*7/48-26,alto*3/30-25];
 var current,newt;
 var update_board_flag = true;
 var juego_rapido = false;
@@ -121,9 +133,9 @@ var tile_height = dimta[3]/dimta[2];
    estado[0]="juego";
    document.getElementById("inicio").style.display = "none";
    let a = Math.floor(Math.random() * tetro.length);
-   current = new pieza(Math.round(dimta[0]/2)-1,false,tetro[a],0,a);
+   current = new poliomino(Math.round(dimta[0]/2)-1,false,tetro[a],0,a);
    a= Math.floor(Math.random() * tetro.length);
-   newt = new pieza(13,18,tetro[a],0,a);
+   newt = new poliomino(13,18,tetro[a],0,a);
   }  
   function inicio(){
       background(0);
@@ -154,7 +166,7 @@ var tile_height = dimta[3]/dimta[2];
   current.update();
   }
   function fast_game(){
-    if (medidas.score >= 400 && medidas.score <= 10400)
+    if (medidas.score >= 500 && medidas.score <= 5000)
     {
       if (update_board_flag && (!lost_game))  // Create a copy board
       {
@@ -208,25 +220,26 @@ function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del c
    return bol;}
 var game_lives = 3;
 var filled_lines_counter = 0;  // Has the count of the removed lines in the current game
-  function completo(){ //completar filas ///ñooo
-    tablero.forEach((fila,i)=>{
+  
+function completo(){//completar filas ///ñooo
+  let init = Date.now();  
+  tablero.forEach((fila,i)=>{
       if(fila.every(function n(value){return value!=0;})){
       for(var m=i;m>0;m--)
         tablero[m]=tablero[m-1].slice(); 
       medidas.lineas++;
       medidas.score+=100;
-    filled_lines_counter++;
-    if (filled_lines_counter == 2 - 1){
+      filled_lines_counter++;
+  /*   if (filled_lines_counter == 2 - 1){
       game_lives++;
       filled_lines_counter = 0;
-    }
+    }*/}}) 
       if(medidas.lineas%9==0 && medidas.lineas>0){
         medidas.nivel+=1;
         medidas.score+=1;
       if(tiempos[2]>100)
         tiempos[2]-=100;
         }
-    }})
   }
   
   function keyPressed(){//deteccion de teclas

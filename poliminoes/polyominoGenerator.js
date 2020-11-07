@@ -101,16 +101,6 @@ polyominoGenerator = function() {
 			}
 		}
 
-		/* for(var j = 0; j < newPolyominos.length; j++){
-			var extra = rotatePointsClockWise(copyPolyomino(newPolyominos[j]));
-			extra = normalizePoints(extra.pointArray);
-			if(extra != newPolyominos[j])
-			 console.log(extra, "rare");
-		} 
-		var extra = flipPointsHorizontally(copyPolyomino(newPolyominos[0])),
-		en = rotatePointsClockWise(rotatePointsClockWise(copyPolyomino(newPolyominos[0])));
-		en = normalizePoints(en.pointArray);
-		console.log(extra, "antig",en);  */
 		var end_time = Date.now();
 		console.log(num, '-omino took: ', end_time - start_time, 'milliseconds');
 		return newPolyominos;
@@ -278,10 +268,9 @@ polyominoGenerator = function() {
 		return false;
 	}
 	
-	//determines if two points are equal.
-	var pointsEqual = function(pointA, pointB) {
-		return pointA.x === pointB.x && pointA.y === pointB.y;
-	}
+//determines if two points are equal.
+var pointsEqual = function(pointA, pointB) {
+	return pointA.x === pointB.x && pointA.y === pointB.y;}
 	
 	//create a new copy of the polyomino
 	var copyPolyomino = function(polyomino) {
