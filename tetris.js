@@ -1,10 +1,13 @@
-var tetro;
-var choose=[255,2,204,153,102,51],colores=[];
+var tetro;//almacena todos los poliminos creados por polyominogenerator
+var choose=[255,2,204,153,102,51],colores=[];//para generar los colores 
 var dimta= [10,250,20,500];//numero de columnas, ancho del cuadro, numero de filas, largo del cuadro;
+var elene;
 function genPoly(n) {
+  elene=n;
   tetro = polyominoGenerator().returnPolyominos(n);   
   console.log(tetro);
-  if (n <5){dimta[0]=10;}
+  //-------definiciones basicas del juego, n-minos, colores de las piezas, tamaño del tablero etc----
+  if (elene <5){dimta[0]=10;}
   else{dimta[0]=12;}
   let ccol =1;
   while(ccol**3<tetro.length){
@@ -14,19 +17,35 @@ function genPoly(n) {
   for(let s=0;s<ccol;s++)
   for(let t=0;t<ccol;t++){
   colores.push([choose[r],choose[s],choose[t]])}
-
-  colores.splice (colores.indexOf([2,2,2]), 1);
+  colores.splice(colores.indexOf([2,2,2]), 1);
   colores.shift();
-  console.log(colores);
   }
-class pieza {
-  constructor(A,B,C,D){
-    this.pointArray= C.pointArray;
-    this.x = A;
-    this.y = B;
-    this.id= D+1;
+class tablero{
+constructor(A,B){
+this.matriz = Array.from({length: A},()=>Array.from({length: B},()=>0));
+}
+completo(){//proceso para limpiar completar filas  
+  let filled_lines_counter = 0;  // Has the count of the removed lines in the current game
+  this.matriz.forEach((fila,i)=>{
+    if(fila.every(function n(value){return value!=0;})){
+      for(let m=i;m>0;m--)
+        this.matriz[m]= this.matriz[m-1].slice(); 
+      medidas.lineas++;
+      medidas.score+=100;
+      filled_lines_counter++;
+    }})
+    next(filled_lines_counter);
   }
-
+  show(guide_point){
+    this.matriz.forEach((row,y)=>{
+     row.forEach((value,x)=>{
+      if(value!==0)
+        fill(colores[value-1]);
+      stroke(125, 213, 200);
+      rect(tile_width*(x)+guide_point[0],tile_height*(y)+guide_point[1],tile_width,tile_height);
+      noFill();
+          
+    })})}
 }
 class poliomino {
 
@@ -38,26 +57,29 @@ class poliomino {
    this.id= E+1;
  }
   update(){ //caida segunt tiempo
-    tiempos[0]=millis()-tiempos[1];
-    if(tiempos[0]>tiempos[2]){
-     tiempos[1]=millis();
+    tiempos.transcurrido=millis()-tiempos.ultimaToma;
+    if(tiempos.transcurrido>tiempos.active){
+     tiempos.ultimaToma=millis();
      this.moveee(0,1);}}
   rotando(){ 
     let rotado=normalizePolyomino(rotatePointsClockWise(copyPolyomino(current)));
-    rotado["x"]=current.x;
-    rotado["y"]=current.y;
     console.log(rotado);
-     if(todopoderosa(rotado,"salirse",0)){
-      console.log("hey");
-     this.pointArray=copyPolyomino(rotado).pointArray; 
-    }}
+    let bol = true;
+    rotado.pointArray.forEach((row)=>{
+      let rx= current.x + row.x;
+      let ry= current.y + row.y;
+      if(ry>dimta[2]-1 || 0>ry || rx>dimta[0]-1 || 0>rx || tableu.matriz[ry][rx]!=0)
+        bol=false;})
+     if(bol)
+     this.pointArray=rotado.pointArray; 
+  }
   moveee(mx,my){//movimiento continuo
-    if(!todopoderosa(this,"caida",0)){
+    if(!this.todopoderosa("caida")){
        caido();}
     noLoop()
     this.y = this.y+my;
     this.x = this.x+mx;
-    if(todopoderosa(this,"salirse",0)){ 
+    if(this.todopoderosa("salirse")){ 
       medidas.score+=my*10;
     }else{
       this.y = this.y-my;
@@ -67,37 +89,71 @@ class poliomino {
     while (this.caido == false)
       this.moveee(0,1);
   }
-  
-  }
-  var tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
-  var ancho = 500, alto = 550;
-  var inicial =[ancho*7/48-26,alto*3/30-25];
-  var tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
+  show(guide_point){
+    this.pointArray.forEach((row)=>{
+      let rx= this.x + row.x;
+      let ry= this.y + row.y;
+      stroke(colores[this.id-1]);
+      fill(colores[this.id-1]);
+      rect(tile_width*(rx)+guide_point[0],tile_height*(ry)+guide_point[1],tile_width,tile_height);
+      noFill();})}
+  todopoderosa(tipe){
+    let bol = true;
+    this.pointArray.forEach((row)=>{
+      let rx= this.x + row.x;
+      let ry= this.y + row.y;
+      if(tipe=="salirse"){//"salirse"verificar que no se salga del tablero
+        if(ry>dimta[2]-1 || 0>ry || rx>dimta[0]-1 || 0>rx || tableu.matriz[ry][rx]!=0)
+        bol=false;
+      }else if(tipe=="caida"){//"caida" verificar que chocó
+          if(ry==dimta[2]-1){
+             bol =false;
+          }else if(tableu.matriz[ry+1][rx]!=0)
+           bol =false;
+      }else if(tipe=="pegar")//"pegar" pegar el arreglo al tablero
+         tableu.matriz[ry][rx]=this.id;})
+   return bol;}
+}
+var ancho = 500, alto = 550;
+var inicialc =[ancho*6/48,alto*2/30];
+var inicialn =[ancho*9/12,alto*13/15];
+var tiempos={transcurrido:0,ultimaToma:0,active:700,leveled:700,fast:100};//tiempo transcurrido desde la ultima toma, tultima toma,caida,caida normal,caida fast-mode;
 var estado = ["inicio"];
-var medidas ={lineas:8,nivel:1,score:0};
-var current,newt;
+var medidas ={lineas:0,nivel:1,score:0};
+var tableu,current,newt;
+var game_lives = 3; 
 var update_board_flag = true;
 var juego_rapido = false;
 var lost_game = false;
 var score_copy = 0;
-var copy_board = [];
-var tile_width = dimta[1]/dimta[0];
-var tile_height = dimta[3]/dimta[2];
-
-  function determinado(){
-   medidas ={lineas:0,nivel:1,score:0};;//almacena lineasresueltas, nivel y score;
-   tiempos=[0,0,700];//tiempo transcurrido desde la ultima toma, tultima toma,cada cuanto cae;
-   tablero = Array.from({length: dimta[2]},()=>Array.from({length: dimta[0]},()=>0));
+var copy_board=[];
+var tile_width,tile_height;
+//-----------------funciones determinantes en la funcion del juego---------------------
+  function determinado(){//devuelve las variables a su estado original (posibilita un rerun sin actualizar pagina)
+   medidas ={lineas:0,nivel:1,score:0};
+   tiempos={transcurrido:0,ultimaToma:0,active:700,leveled:700,fast:100};
    estado = ["inicio"];
    copy_board = [];
    score_copy = 0;
    lost_game = false;
    juego_rapido = false;
    update_board_flag = true;
+   game_lives = 3;
   }
-   //var musica = document.getElementById("msik");
-  
-  function textito(letra,letra2,pt2,size){//creando el entorno by default
+  function next(cuanto){//mira que hacer cuando se limpia una fila (suma puntaje, da vidas etc)
+    if (cuanto == elene ||cuanto == elene-1){
+      game_lives++;
+      medidas.score+=200;}
+    if(medidas.lineas%9==0 && medidas.lineas>0){
+      medidas.nivel+=1;
+      medidas.score+=1;
+    if(tiempos.leveled>100)
+      tiempos.leveled-=100;
+      tiempos.active = tiempos.leveled;
+    }
+  }
+
+  function textito(letra,letra2,pt2,size){//creando la estetica default
    textSize(size);
    textAlign(CENTER,TOP);
    text(letra,width*10/12,height*pt2/15);
@@ -107,19 +163,20 @@ var tile_height = dimta[3]/dimta[2];
     var canvas= createCanvas(500,550);
     canvas.parent("canvas");
     rectMode(CENTER);
+    noLoop();
   }
   
-  function draw() {
-   if(estado[0]=="inicio"){
+function draw() {
+  if(estado[0]=="inicio"){
     inicio();
    }else if(estado[0]=="juego"){
-     juego();
+     juego(curcol[0],curcol[1],curcol[2],curcol[3],1);
      fast_game();
-     if(tablero[0].some((value)=>{return value!=0})){  // A tile reaches top
+     if(tableu.matriz[0].some((value)=>{return value!=0})){  // A tile reaches top
        game_lives--;
        if (game_lives > 0 && juego_rapido)
        {
-         tablero = JSON.parse(JSON.stringify(copy_board));
+        tableu.matriz = JSON.parse(JSON.stringify(copy_board));
          medidas.score = score_copy.valueOf();
          lost_game = true;
        }
@@ -132,10 +189,14 @@ var tile_height = dimta[3]/dimta[2];
   function start(){
    estado[0]="juego";
    document.getElementById("inicio").style.display = "none";
+   tableu = new tablero(dimta[2],dimta[0]);
    let a = Math.floor(Math.random() * tetro.length);
    current = new poliomino(Math.round(dimta[0]/2)-1,false,tetro[a],0,a);
    a= Math.floor(Math.random() * tetro.length);
-   newt = new poliomino(13,18,tetro[a],0,a);
+   newt = new poliomino(0,0,tetro[a],0,a);
+   tile_width = dimta[1]/dimta[0];
+   tile_height = dimta[3]/dimta[2];
+   loop();
   }  
   function inicio(){
       background(0);
@@ -144,9 +205,11 @@ var tile_height = dimta[3]/dimta[2];
       textSize(20);
       textAlign(CENTER,TOP);
       text("Presiona para comenzar", width/2,height*1/4);
-      text("Records",width/2,height/2);}
-  
-  function juego(){
+      text("Records",width/2,height/2);
+    }
+  var curcol=[125,125,213,200];
+  fastcol=[];
+  function juego(fondo,c1,c2,c3,stroken){
    background(0);
    stroke(255);
    textito("TETRIS","",2,35);
@@ -154,15 +217,17 @@ var tile_height = dimta[3]/dimta[2];
    textito("LEVEL",medidas.nivel,8,15);
    textito("LINES",medidas.lineas,10,15);
    textito("NEXT","",12,15);
-   fill(125);
+   fill(fondo);
    rectMode(CORNERS);
-   rect(inicial[0],inicial[1],inicial[0]+dimta[1],inicial[1]+dimta[3]);
-   stroke(125, 213, 200);
+   strokeWeight(stroken);
+   stroke(c1,c2,c3);
+   rect(inicialc[0]-25/2,inicialc[1]-13,inicialc[0]+dimta[1]-25/2,inicialc[1]+dimta[3]-13);
+   strokeWeight(1);
    rectMode(CENTER);
    //end default
-  show(tablero,25);
-  todopoderosa(current,"show",25);
-  todopoderosa(newt,"show",25);
+  tableu.show(inicialc);
+  current.show(inicialc);
+  newt.show(inicialn);
   current.update();
   }
   function fast_game(){
@@ -171,77 +236,21 @@ var tile_height = dimta[3]/dimta[2];
       if (update_board_flag && (!lost_game))  // Create a copy board
       {
         score_copy = medidas.score.valueOf();
-        copy_board = JSON.parse(JSON.stringify(tablero));
+        copy_board = JSON.parse(JSON.stringify(tableu.matriz));
+        console.log(copy_board);
         update_board_flag = false;
       }
       juego_rapido = true;
-      tiempos[2] = 100;
+      tiempos.active= tiempos.fast;
     }
     else
     {
       lost_game = false;
       juego_rapido = false;
-      tiempos[2] = 400;
+      tiempos.active = tiempos.leveled;
       update_board_flag = true;
     }
-  }
-function show(arr,extra){
-  arr.forEach((row,y)=>{
-   row.forEach((value,x)=>{
-    if(value!==0)
-      fill(colores[value-1]);
-    stroke(125, 213, 200);
-    rect(extra*(x)+inicial[0]+extra/2,extra*(y)+inicial[1]+extra/2,tile_width,tile_height);
-    noFill();
-        
-  })})}
-function todopoderosa(obj,tipe,extra){//"salirse"verificar que no se salga del cuadro,"caida" verificar caida,"pegar" pegar el arreglo al tablero,"show"dibujar el arreglo con el color
-   let bol =true;
-   obj.pointArray.forEach((row)=>{
-     let rx= obj.x + row.x;
-     let ry= obj.y + row.y;
-     if(tipe=="salirse"){
-       if(ry>dimta[2]-1 || 0>ry || rx>dimta[0]-1 || 0>rx || tablero[ry][rx]!=0)
-       bol=false;
-      }else if(tipe=="caida"){
-        if(ry==dimta[2]-1){
-            bol =false;
-          }else if(tablero[ry+1][rx]!=0)
-          bol =false;
-        }else if(tipe=="pegar")
-        tablero[ry][rx]=obj.id;
-        else if(tipe=="show"){
-          stroke(colores[obj.id-1]);
-          fill(colores[obj.id-1]);
-          rect(extra*(rx)+inicial[0]+extra/2,extra*(ry)+inicial[1],tile_width,tile_height);
-          noFill();
-        }
-   })
-   return bol;}
-var game_lives = 3;
-var filled_lines_counter = 0;  // Has the count of the removed lines in the current game
-  
-function completo(){//completar filas ///ñooo
-  let init = Date.now();  
-  tablero.forEach((fila,i)=>{
-      if(fila.every(function n(value){return value!=0;})){
-      for(var m=i;m>0;m--)
-        tablero[m]=tablero[m-1].slice(); 
-      medidas.lineas++;
-      medidas.score+=100;
-      filled_lines_counter++;
-  /*   if (filled_lines_counter == 2 - 1){
-      game_lives++;
-      filled_lines_counter = 0;
-    }*/}}) 
-      if(medidas.lineas%9==0 && medidas.lineas>0){
-        medidas.nivel+=1;
-        medidas.score+=1;
-      if(tiempos[2]>100)
-        tiempos[2]-=100;
-        }
-  }
-  
+}
   function keyPressed(){//deteccion de teclas
    if (keyCode === LEFT_ARROW || key=="a") current.moveee(-1,0);
    else if (keyCode === RIGHT_ARROW|| key=="d") current.moveee(1,0);
@@ -250,13 +259,14 @@ function completo(){//completar filas ///ñooo
    else if( key=="r")current.full_down()
    else if(key=="n" && estado[0]=="gameover") {
     determinado();
-    start()}}
+    start()
+    loop()}}
   
   function caido(){//deteccion y creacion de nuevo bloque
   if(current.caido==0)
    current.caido=1;
   else{
-      todopoderosa(current,"pegar",0);
+      current.todopoderosa("pegar");
       current.x= Math.round(dimta[0]/2)-1;
       current.y=0;
       current.caido=0;
@@ -267,7 +277,7 @@ function completo(){//completar filas ///ñooo
       newt.pointArray=tetro[a].pointArray/* .map(a => Object.assign({}, a)) */;
       newt.id=a+1;
       loop();
-      completo();}}
+      tableu.completo();}}
   
   function gameover(){//stylish del gameover
     background(0);
@@ -276,7 +286,8 @@ function completo(){//completar filas ///ñooo
     textSize(30);
     text("GAME OVER",width/2,height*1/4);
     textSize(20);
-    text("Tu puntaje final fue: "+medidas.score+"\n Quedaste en el nivel: "+medidas.nivel+"\n y completaste "+medidas.lineas+" lineas",width/2,height*2/4);
-    text("Eres Genial, ¡Gracias por jugar!",width/2,height*3/4);
+    text("Tu puntaje final fue: "+medidas.score+"\n Quedaste en el nivel: "+medidas.nivel+"\n Completaste "+medidas.lineas+" lineas"+"\n y te quedaron "+game_lives+" vidas",width/2,height*4/10);
+    text("🤘 Eres Genial, ¡Gracias por jugar! 🤗",width/2,height*3/4);
     text("Presiona N para volver",width/2,height*9/10);
+    noLoop();
   } 
