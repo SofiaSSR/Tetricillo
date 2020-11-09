@@ -7,14 +7,19 @@
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="/poliminoes/polyominoGenerator.js"></script>
-    <script src="/check.js"></script>
     <script src="tetris.js"></script>
 </head>
 <body>
-    <form name='numInput' id='numInput'>
+  <div id="popupBody">
+    <h2>Bienvenido al n-tris</h2>
+    <div class="popupContent">
+      <form name='numInput' id='numInput'>
+        <label>Por favor escoge de 1 a 7</label>
         <input type='text' name='answer'>
-        <input type='submit'>
-      </form>
+        <input type='submit' id="submit">
+        </form>
+ </div>
+</div>
     <!-- <audio id="musik" src="https://www.youtube.com/watch?v=whBg7IF5JUg" preload="auto"></audio> -->
     <div id="container">
         <div id="canvas">
@@ -23,50 +28,14 @@
         <div id="buttons">
             <div class="arreglo"><button id="arriba" class="move roto"  onclick="current.rotando()">v</button></div>
             <div class="arreglo">
-            <button class="move roto" onclick="moveee(-1,0)">></button>
-            <button class="move" onclick="moveee(0,1)">v</button>
-            <button class="move" onclick="moveee(1,0)">></button></div>
+            <button class="move roto" onclick="current.moveee(-1,0)">></button>
+            <button class="move" onclick="current.moveee(0,1)">v</button>
+            <button class="move" onclick="current.moveee(1,0)">></button></div>
         </div>
     </div>
-    <svg id = 'vis'></svg>
 </body>
 
 </html>
-<style>
-.roto{
-    transform: rotate(180deg);
-    margin-left: 25%;
-}
-#arriba{
-    margin-left: 45%;
-}
-#container, #arreglo, #canvas{
-    justify-content: space-around;
-    align-content: center;
-    display: flex;}
-button{
-	color:#4F3B7A;
-	font-size: large;
-	size: 100px;
-	margin:3%;
-    padding: 4% 5% 4% 5%;
-  	border: 2px solid #3123f3;
-  	transition-duration: 0.5s;
-  	cursor: pointer;
-
-}
-button:hover{
-	background: #1e0ef7;
-    color: #fff;}
-#buttons{
-    width: 40%;
-    padding-top: 25%;
-}
-#canvas{
-    flex-direction: column;
-    position: relative;
-}
-</style>
 <script>
   d3.select('#numInput').on('submit', submitCheck);
     
@@ -76,8 +45,8 @@ button:hover{
         if(validateForm) {
             var svg = d3.select("svg");
             svg.selectAll("*").remove();
-            genPoly(Number(document.forms["numInput"]["answer"].value));
-        }
+            genPoly(Number(document.forms["numInput"]["answer"].value));}
+        document.getElementById("popupBody").style.display= "none";
     
     }
     
@@ -96,49 +65,58 @@ button:hover{
         return true;
     }
 </script>
-<!-- <script>
-
-  d3.select('#numInput').on('submit', submitCheck);
-  
-  function submitCheck() {
-    d3.event.preventDefault();
-  
-    if(validateForm) {
-      var svg = d3.select("svg");
-        svg.selectAll("*").remove();
-      genPoly(Number(document.forms["numInput"]["answer"].value));
-    }
-  
-  }
-  
-  //validate the user input
-  function validateForm() {
-    var x = document.forms["numInput"]["answer"].value;
-    if (x === null || x === "" || isNaN(x)) {
-      alert("Please enter an actual numerical value.");
-      return false;
-    } 
-  
-    if(Number(x) >= 11) {
-      alert("This might not work! You're on your own!");
-    }
-  
-    return true;
-  }
-  
-  function genPoly(n) {
-  var chart = d3.select('#vis');
-  
-  //main call to the generation algorithm.
-  var polyOminos = polyominoGenerator().returnPolyominos(n);
-  
-  console.log(polyOminos);
-  
-  //graphically render all the pieces that are generated. 
-  renderPolyomino(chart).renderAllPieces(polyOminos, 30, 100, 20, 20);
+<style>
+ .roto{
+    transform: rotate(180deg);
+    margin-left: 25%;
 }
-var extra= copyPolyomino(polyOminos[0]);
-extra = flipPointsVertically(extra);
-console.log(extra, " antigua", polyOminos[0]); 
+#arriba{
+    margin-left: 45%;
+}
+ #container, #arreglo, #canvas,form {
+    justify-content: space-around;
+    align-content: center;
+    display: flex;} 
+button,#submit{
+	color:#4F3B7A;
+	font-size: large;
+	size: 100px;
+	margin:3%;
+    padding: 4% 5% 4% 5%;
+  	border: 2px solid #3123f3;
+  	transition-duration: 0.5s;
+  	cursor: pointer;
+
+}
+form{
+  flex-direction: column;
+  position: relative;
+  size: 70%;
   
-  </script> -->
+}
+#popupBody{
+width: 33%;
+padding: 2%;
+border-radius: 15px;
+box-shadow: 0 0 5px #CCC;
+background: #ffbb00;
+position: relative;
+margin: 20% auto;
+transition: all 5s ease-in-out;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+button:hover, #submit:hover{
+	background: #1e0ef7;
+    color: #fff;}
+#buttons{
+    width: 40%;
+    padding-top: 25%;
+}
+#canvas{
+    flex-direction: column;
+    position: relative;
+}
+</style>
+
